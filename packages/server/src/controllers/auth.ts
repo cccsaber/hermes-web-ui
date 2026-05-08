@@ -172,30 +172,22 @@ export async function listLockedIps(ctx: Context) {
 }
 
 /**
- * DELETE /api/auth/locked-ips/:ip
- * Unlock a specific IP (protected).
+ * DELETE /api/auth/locked-ips?ip=xxx
+ * Unlock a specific IP. No ip param = unlock all.
  */
 export async function unlockIpHandler(ctx: Context) {
-  const ip = ctx.params.ip
-  if (!ip) {
-    ctx.status = 400
-    ctx.body = { error: 'IP is required' }
+  const ip = ctx.query.ip as string
+  if (ip) {
+    const found = unlockIp(ip)
+    if (!found) {
+      ctx.status = 404
+      ctx.body = { error: 'IP not locked' }
+      return
+    }
+    ctx.body = { success: true }
     return
   }
-  const found = unlockIp(ip)
-  if (!found) {
-    ctx.status = 404
-    ctx.body = { error: 'IP not locked' }
-    return
-  }
-  ctx.body = { success: true }
-}
-
-/**
- * DELETE /api/auth/locked-ips
- * Unlock all IPs (protected).
- */
-export async function unlockAllIps(ctx: Context) {
+  // No IP specified — unlock all
   const count = unlockAll()
   ctx.body = { success: true, count }
 }

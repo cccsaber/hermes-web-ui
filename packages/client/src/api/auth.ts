@@ -67,7 +67,7 @@ export async function fetchLockedIps(): Promise<LockedIp[]> {
 }
 
 export async function unlockSpecificIp(ip: string): Promise<void> {
-  return request(`/api/auth/locked-ips/${encodeURIComponent(ip)}`, {
+  return request(`/api/auth/locked-ips?ip=${encodeURIComponent(ip)}`, {
     method: 'DELETE',
   })
 }
