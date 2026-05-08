@@ -520,6 +520,16 @@ jobTriggered: 'Job ausgelost',
       cors: 'CORS-Ursprunge',
       corsHint: 'Erlaubte Cross-Origin-Quellen',
     },
+    lockedIps: {
+      title: 'Gesperrte IPs',
+      count: '{count} gesperrt',
+      empty: 'Keine gesperrten IPs',
+      unlock: 'Entsperren',
+      unlockAll: 'Alle entsperren',
+      unlockAllConfirm: 'Alle gesperrten IPs entsperren?',
+      unlocked: 'IP entsperrt',
+      allUnlocked: '{count} IPs entsperrt',
+    },
   },
 
   // Platform channel settings

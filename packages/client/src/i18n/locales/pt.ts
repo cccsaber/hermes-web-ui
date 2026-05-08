@@ -520,6 +520,16 @@ jobTriggered: 'Job acionado',
       cors: 'Origens CORS',
       corsHint: 'Fontes cross-origin permitidas',
     },
+    lockedIps: {
+      title: 'IPs bloqueadas',
+      count: '{count} bloqueadas',
+      empty: 'Nenhuma IP bloqueada',
+      unlock: 'Desbloquear',
+      unlockAll: 'Desbloquear tudo',
+      unlockAllConfirm: 'Desbloquear todas as IPs?',
+      unlocked: 'IP desbloqueada',
+      allUnlocked: '{count} IPs desbloqueadas',
+    },
   },
 
   // Platform channel settings

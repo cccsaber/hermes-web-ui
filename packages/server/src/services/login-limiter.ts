@@ -240,6 +240,57 @@ export function reset(): void {
   schedulePersist()
 }
 
+export interface LockedIpInfo {
+  ip: string
+  type: 'password' | 'token'
+  failures: number
+  lockedUntil: number
+}
+
+export function getLockedIps(): LockedIpInfo[] {
+  const t = now()
+  const result: LockedIpInfo[] = []
+  for (const [ip, entry] of Object.entries(state.passwordIpMap)) {
+    if (entry.lockedUntil > 0 && t < entry.lockedUntil) {
+      result.push({ ip, type: 'password', failures: entry.failures, lockedUntil: entry.lockedUntil })
+    }
+  }
+  for (const [ip, entry] of Object.entries(state.tokenIpMap)) {
+    if (entry.lockedUntil > 0 && t < entry.lockedUntil) {
+      result.push({ ip, type: 'token', failures: entry.failures, lockedUntil: entry.lockedUntil })
+    }
+  }
+  return result
+}
+
+export function unlockIp(ip: string): boolean {
+  let found = false
+  if (state.passwordIpMap[ip]) {
+    delete state.passwordIpMap[ip]
+    found = true
+  }
+  if (state.tokenIpMap[ip]) {
+    delete state.tokenIpMap[ip]
+    found = true
+  }
+  if (found) {
+    dirty = true
+    persistStateSync()
+  }
+  return found
+}
+
+export function unlockAll(): number {
+  const count = getLockedIps().length
+  state.passwordIpMap = {}
+  state.tokenIpMap = {}
+  state.globalTotalFailures = 0
+  state.globalLockedUntil = 0
+  dirty = true
+  persistStateSync()
+  return count
+}
+
 export { extractIp }
 
 export async function initLoginLimiter(): Promise<void> {

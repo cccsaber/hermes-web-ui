@@ -520,6 +520,16 @@ export default {
       cors: 'CORS 許可元',
       corsHint: '許可するクロスオリジン',
     },
+    lockedIps: {
+      title: 'ロック済みIP管理',
+      count: '{count}件ロック中',
+      empty: 'ロック済みIPなし',
+      unlock: 'ロック解除',
+      unlockAll: '全て解除',
+      unlockAllConfirm: '全てのロック済みIPを解除しますか？',
+      unlocked: 'IPをロック解除しました',
+      allUnlocked: '{count}件のIPをロック解除しました',
+    },
   },
 
   // プラットフォームチャンネル設定

@@ -1,7 +1,7 @@
 import type { Context } from 'koa'
 import { getCredentials, setCredentials, verifyCredentials, deleteCredentials } from '../services/credentials'
 import { getToken } from '../services/auth'
-import { checkPassword, recordPasswordFailure, recordPasswordSuccess, extractIp } from '../services/login-limiter'
+import { checkPassword, recordPasswordFailure, recordPasswordSuccess, extractIp, getLockedIps, unlockIp, unlockAll } from '../services/login-limiter'
 
 /**
  * GET /api/auth/status
@@ -160,4 +160,42 @@ export async function changeUsername(ctx: Context) {
 export async function removePassword(ctx: Context) {
   await deleteCredentials()
   ctx.body = { success: true }
+}
+
+/**
+ * GET /api/auth/locked-ips
+ * List all currently locked IPs (protected).
+ */
+export async function listLockedIps(ctx: Context) {
+  const locks = getLockedIps()
+  ctx.body = { locks }
+}
+
+/**
+ * DELETE /api/auth/locked-ips/:ip
+ * Unlock a specific IP (protected).
+ */
+export async function unlockIpHandler(ctx: Context) {
+  const ip = ctx.params.ip
+  if (!ip) {
+    ctx.status = 400
+    ctx.body = { error: 'IP is required' }
+    return
+  }
+  const found = unlockIp(ip)
+  if (!found) {
+    ctx.status = 404
+    ctx.body = { error: 'IP not locked' }
+    return
+  }
+  ctx.body = { success: true }
+}
+
+/**
+ * DELETE /api/auth/locked-ips
+ * Unlock all IPs (protected).
+ */
+export async function unlockAllIps(ctx: Context) {
+  const count = unlockAll()
+  ctx.body = { success: true, count }
 }

@@ -520,6 +520,16 @@ export default {
       cors: 'CORS 출처',
       corsHint: '허용된 교차 출처',
     },
+    lockedIps: {
+      title: '잠긴 IP 관리',
+      count: '{count}개 잠김',
+      empty: '잠긴 IP 없음',
+      unlock: '잠금 해제',
+      unlockAll: '전체 해제',
+      unlockAllConfirm: '모든 잠긴 IP를 해제하시겠습니까?',
+      unlocked: 'IP 잠금 해제됨',
+      allUnlocked: '{count}개 IP 잠금 해제됨',
+    },
   },
 
   // 플랫폼 채널 설정
