@@ -13,7 +13,7 @@ const IP_MAP_MAX_SIZE = 10000
 
 // Global safety net (against distributed attacks)
 const GLOBAL_WINDOW_MS = 60_000
-const GLOBAL_MAX_REQUESTS_PER_WINDOW = 20
+const GLOBAL_MAX_REQUESTS_PER_WINDOW = 100
 const GLOBAL_MAX_TOTAL_FAILURES = 50
 const GLOBAL_LOCK_DURATION_MS = 30 * 60_000 // 30 minutes
 
